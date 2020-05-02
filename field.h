@@ -3,28 +3,22 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <windows.h>
 
-#define X_SIZE 50
-#define Y_SIZE 20
-#define FIELD_SIZE X_SIZE*Y_SIZE
-#define MAX_NUM_FLAKES FIELD_SIZE
-
-typedef struct Point
+typedef struct _Field
 {
-    int _x;
-    int _y;
-} Point;
+    CHAR_INFO* _field;
+    COORD _size;
+} Field, *PField;
 
-typedef struct Field
-{
-    char _field[FIELD_SIZE];
-    struct Point _flakes[MAX_NUM_FLAKES]; // buffer of active flakes
-    size_t _numFlakes; // index to put new flake into _flakes
-} Field;
-
-void constructField(Field*);
+Field* constructField(short, short);
 void destroyField(Field*);
-char* getCell(Field*, size_t, size_t);
+bool isCorrectPos(Field*, short, short);
+CHAR_INFO* getCell(Field*, short, short);
+bool createNewFlake(Field*, short);
+int getFlakeStatus(Field*, short, short);
+bool updateField(Field*);
+
 void logField(Field*);
 
 #endif // FIELD_H_INCLUDED
