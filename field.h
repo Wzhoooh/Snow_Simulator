@@ -5,11 +5,18 @@
 #include <stdlib.h>
 #include <windows.h>
 
-typedef struct _Field
+#define CHAR_SPACE ' '
+#define ATTR_SPACE 0
+#define CHAR_FLAKE '*'
+#define ATTR_FLAKE 0
+#define CHAR_WALL '%'
+#define ATTR_WHALL 0
+
+typedef struct
 {
-    CHAR_INFO* _field;
-    COORD _size;
-} Field, *PField;
+    CHAR_INFO* screen;
+    COORD size;
+} Field;
 
 Field* constructField(short, short);
 void destroyField(Field*);
@@ -17,7 +24,7 @@ bool isCorrectPos(Field*, short, short);
 CHAR_INFO* getCell(Field*, short, short);
 bool createNewFlake(Field*, short);
 int getFlakeStatus(Field*, short, short);
-bool updateField(Field*);
+void updateField(Field*);
 
 void logField(Field*);
 
