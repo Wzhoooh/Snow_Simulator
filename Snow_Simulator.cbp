@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="console.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="console.h" />
 		<Unit filename="field.c">
 			<Option compilerVar="CC" />
 		</Unit>

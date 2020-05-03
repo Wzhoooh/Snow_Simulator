@@ -1,7 +1,6 @@
 #ifndef FIELD_H_INCLUDED
 #define FIELD_H_INCLUDED
 
-#include <stdbool.h>
 #include <stdlib.h>
 #include <windows.h>
 
@@ -20,9 +19,9 @@ typedef struct
 
 Field* constructField(short, short);
 void destroyField(Field*);
-bool isCorrectPos(Field*, short, short);
+BOOL isCorrectPos(Field*, short, short);
 CHAR_INFO* getCell(Field*, short, short);
-bool createNewFlake(Field*, short);
+BOOL createNewFlake(Field*, short);
 int getFlakeStatus(Field*, short, short);
 void updateField(Field*);
 

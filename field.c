@@ -35,7 +35,7 @@ void destroyField(Field* field)
     free(field);
 }
 
-bool isCorrectPos(Field* field, short x, short y)
+BOOL isCorrectPos(Field* field, short x, short y)
 {
     return x >= 0 && x < field->size.X && y >= 0 && y < field->size.Y;
 }
@@ -48,16 +48,16 @@ CHAR_INFO* getCell(Field* field, short x, short y)
     return NULL;
 }
 
-bool createNewFlake(Field* field, short x)
+BOOL createNewFlake(Field* field, short x)
 {
     CHAR_INFO* cell = getCell(field, x, 0);
     if (cell != NULL && cell->Char.AsciiChar == CHAR_SPACE)
     {
         cell->Char.AsciiChar = CHAR_FLAKE;
         cell->Attributes = ATTR_FLAKE;
-        return true;
+        return TRUE;
     }
-    return false;
+    return FALSE;
 }
 
 int getFlakeStatus(Field* field, short x, short y)
