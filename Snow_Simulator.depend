@@ -1,23 +1,23 @@
 # depslib dependency file v1.0
-1588518317 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.c
+1588591971 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.c
 	"stdio.h"
 	"field.h"
 	"time.h"
 
-1588529800 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
+1588591935 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
 	<stdio.h>
 	"field.h"
 	"console.h"
 
-1588518316 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.h
+1588591378 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.h
 	<stdlib.h>
 	<windows.h>
 
-1588528542 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
+1588584608 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
 	<windows.h>
 	"field.h"
 
-1588529448 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
+1588591186 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
 	"console.h"
 	"field.h"
 	<stdio.h>

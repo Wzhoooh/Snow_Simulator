@@ -16,7 +16,7 @@ Field* constructField(short x, short y)
     if ( !(f = (Field*)malloc(sizeof(Field))) )
         return NULL;
 
-    if ( !(f->screen = (CHAR_INFO*)malloc(sizeof(CHAR_INFO)*x*y)) )
+    if ( !(f->screen = (CHAR_INFO*)malloc(sizeof(CHAR_INFO) * x * y)) )
         return NULL;
     for (int i = 0; i < x*y; ++i)
     {
@@ -78,7 +78,7 @@ int getFlakeStatus(Field* field, short x, short y)
 
     if  (down == CHAR_WALL || down == CHAR_FLAKE &&
         (left != CHAR_SPACE || leftDown != CHAR_SPACE) &&
-       (right != CHAR_SPACE || rightDown != CHAR_SPACE))
+        (right != CHAR_SPACE || rightDown != CHAR_SPACE))
         return NOT_ACTIVE;
 
     if (down == CHAR_FLAKE)
@@ -86,8 +86,7 @@ int getFlakeStatus(Field* field, short x, short y)
         if (leftDown == CHAR_SPACE && rightDown == CHAR_SPACE &&
             left == CHAR_SPACE && right == CHAR_SPACE)
         {
-            srand(time(NULL));
-            return rand() % 2 ? LEFT_SLIDE : RIGHT_SLIDE;
+            return rand() > RAND_MAX / 2 ? LEFT_SLIDE : RIGHT_SLIDE;
         }
         if (right != CHAR_SPACE || rightDown != CHAR_SPACE)
                 return LEFT_SLIDE;

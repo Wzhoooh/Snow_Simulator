@@ -6,9 +6,11 @@
 
 struct Field;
 static HANDLE descriptor;
-static COORD maxSize;
+static COORD screenSize;
+static CHAR_INFO* screenBuffer;
 
 BOOL initConsole(Field*);
+void destroyConsole();
 void writeConsole(Field*);
 
 #endif // CONSOLE_H_INCLUDED
