@@ -23,9 +23,11 @@ Field* constructField(short x, short y)
         f->screen[i].Char.AsciiChar = CHAR_SPACE;
         f->screen[i].Attributes = ATTR_SPACE;
     }
-
     f->size.X = x;
     f->size.Y = y;
+
+    f->screen[0].Char.AsciiChar = CHAR_CANNON;
+    f->screen[0].Attributes = ATTR_CANNON;
     return f;
 }
 
@@ -50,7 +52,7 @@ CHAR_INFO* getCell(Field* field, short x, short y)
 
 BOOL createNewFlake(Field* field, short x)
 {
-    CHAR_INFO* cell = getCell(field, x, 0);
+    CHAR_INFO* cell = getCell(field, x, 1);
     if (cell != NULL && cell->Char.AsciiChar == CHAR_SPACE)
     {
         cell->Char.AsciiChar = CHAR_FLAKE;
@@ -128,6 +130,52 @@ void updateField(Field* field)
                     ;
             }
         }
+}
+
+COORD getCannonCoord(Field* field)
+{
+    COORD cannonCoord = {-1, -1};
+    for (int j = 0; j < field->size.X; j++)
+        if (getCell(field, j, 0)->Char.AsciiChar == CHAR_CANNON)
+        {
+            cannonCoord.X = j;
+            cannonCoord.Y = 0;
+        }
+    return cannonCoord;
+}
+BOOL moveCannonRigh(Field* field)
+{
+    COORD cannonCoord = getCannonCoord(field);
+    if (cannonCoord.X < field->size.X-1)
+    {
+        getCell(field, cannonCoord.X, cannonCoord.Y)->Char.AsciiChar = CHAR_SPACE;
+        getCell(field, cannonCoord.X, cannonCoord.Y)->Attributes = ATTR_SPACE;
+        getCell(field, cannonCoord.X+1, cannonCoord.Y)->Char.AsciiChar = CHAR_CANNON;
+        getCell(field, cannonCoord.X+1, cannonCoord.Y)->Attributes = ATTR_CANNON;
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
+BOOL moveCannonLeft(Field* field)
+{
+    COORD cannonCoord = getCannonCoord(field);
+    if (cannonCoord.X > 0)
+    {
+        getCell(field, cannonCoord.X, cannonCoord.Y)->Char.AsciiChar = CHAR_SPACE;
+        getCell(field, cannonCoord.X, cannonCoord.Y)->Attributes = ATTR_SPACE;
+        getCell(field, cannonCoord.X-1, cannonCoord.Y)->Char.AsciiChar = CHAR_CANNON;
+        getCell(field, cannonCoord.X-1, cannonCoord.Y)->Attributes = ATTR_CANNON;
+        return TRUE;
+    }
+    else
+        return FALSE;
+}
+
+BOOL createNewFlakeFromCannon(Field* field)
+{
+    COORD cannonCoord = getCannonCoord(field);
+    createNewFlake(field, cannonCoord.X);
 }
 
 void logField(Field* field)

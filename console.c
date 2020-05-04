@@ -45,6 +45,8 @@ BOOL initConsole(Field* field)
         for (int j = 0; j < screenSize.X; j++)
             ConsoleSetXYChar(j, i, ch);
 
+
+
     writeConsole(field);
     return TRUE;
 }
