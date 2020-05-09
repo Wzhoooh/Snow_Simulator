@@ -4,7 +4,7 @@
 	"field.h"
 	"time.h"
 
-1588620067 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
+1589049641 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
 	<conio.h>
 	"field.h"
 	"console.h"
@@ -13,11 +13,11 @@
 	<stdlib.h>
 	<windows.h>
 
-1588584608 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
+1589049664 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
 	<windows.h>
 	"field.h"
 
-1588616147 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
+1589049641 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
 	"console.h"
 	"field.h"
 	<stdio.h>

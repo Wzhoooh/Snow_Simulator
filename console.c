@@ -18,7 +18,7 @@ BOOL initConsole(Field* field)
 
     CONSOLE_CURSOR_INFO cInfo = { 1, FALSE };
     SetConsoleCursorInfo(descriptor, &cInfo);
-    MoveWindow(GetConsoleWindow(), 3, 3, 3, 3, TRUE);
+    MoveWindow(GetConsoleWindow(), 0, 0, 0, 0, TRUE);
 
     screenSize.X = field->size.X;
     screenSize.Y = field->size.Y;
@@ -44,8 +44,6 @@ BOOL initConsole(Field* field)
     for (int i = 0; i < screenSize.Y; i++)
         for (int j = 0; j < screenSize.X; j++)
             ConsoleSetXYChar(j, i, ch);
-
-
 
     writeConsole(field);
     return TRUE;

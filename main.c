@@ -12,7 +12,10 @@
 
 int main()
 {
-    Field* field = constructField(100, 40);
+    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+    Field* field = constructField(GetLargestConsoleWindowSize(handle).X-1,
+                                  GetLargestConsoleWindowSize(handle).Y-1);
+    initConsole(field);
     CHAR_INFO wall;
     wall.Attributes = ATTR_WALL;
     wall.Char.AsciiChar = CHAR_WALL;
@@ -30,7 +33,6 @@ int main()
     *getCell(field, 37, 16) = wall;
     *getCell(field, 47, 11) = wall;
     *getCell(field, 26, 30) = wall;
-    initConsole(field);
 
     for (;; Sleep(50))
     {
