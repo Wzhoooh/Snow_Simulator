@@ -2,7 +2,16 @@
 #include "field.h"
 #include <stdio.h>
 
+static HANDLE descriptor;
+static COORD screenSize;
+static CHAR_INFO* screenBuffer;
+
 HWND WINAPI GetConsoleWindow(void);
+
+static void ConsoleSetXYChar (int x, int y, CHAR_INFO ch)
+{
+    screenBuffer[x + y*screenSize.X] = ch;
+}
 
 BOOL initConsole(Field* field)
 {
@@ -21,7 +30,7 @@ BOOL initConsole(Field* field)
     MoveWindow(GetConsoleWindow(), 0, 0, 0, 0, TRUE);
 
     screenSize.X = field->size.X;
-    screenSize.Y = field->size.Y;
+    screenSize.Y = field->size.Y + 1; // for message
     if (!SetConsoleScreenBufferSize(descriptor, screenSize))
         return FALSE;
 
@@ -48,10 +57,6 @@ BOOL initConsole(Field* field)
     writeConsole(field);
     return TRUE;
 }
-void ConsoleSetXYChar (int x, int y, CHAR_INFO ch)
-{
-    screenBuffer[x + y*screenSize.X] = ch;
-}
 
 void destroyConsole()
 {
@@ -60,8 +65,8 @@ void destroyConsole()
 
 void writeConsole(Field* field)
 {
-    for (int i = 0; i < screenSize.Y; i++)
-        for (int j = 0; j < screenSize.X; j++)
+    for (int i = 0; i < field->size.Y; i++)
+        for (int j = 0; j < field->size.X; j++)
         {
             CHAR_INFO cell = *getCell(field, j, i);
             if (cell.Char.AsciiChar !=
@@ -83,35 +88,70 @@ void writeConsole(Field* field)
         }
 }
 
-void printMessage (const char* str1, const char* str2, DWORD num)
+void writeHelpMessage()
 {
-    char buf[16];
-    snprintf(buf, sizeof(buf), "%ld", num);
+    CHAR_INFO buf[screenSize.X];
 
-    // ошибки не проверяем, нет смысла
+    CHAR_INFO ch;
+    ch.Char.AsciiChar = ' ';
+    ch.Attributes = ATTR_HELP;
+    for (int i = 0; i < screenSize.X; i++)
+        buf[i] = ch;
+
+    char *mess[][2] = {
+        { "Esc", "- quit" },
+        { "Space", "- drop snowflake" },
+        { "<- ->", "- move source" },
+        { "R", "- random snowfall" }
+    };
+    int pos = 1;
+    for (int i = 0; i < sizeof(mess)/sizeof(mess[0]); i++)
+    {
+        ch.Attributes = ATTR_BUTTON;
+        for (char *p = mess[i][0]; *p; ++p)
+        {
+            ch.Char.AsciiChar = *p;
+            buf[pos++] = ch;
+        }
+
+        pos++;
+
+        ch.Attributes = ATTR_HELP;
+        for (char *p = mess[i][1]; *p; ++p)
+        {
+            ch.Char.AsciiChar = *p;
+            buf[pos++] = ch;
+        }
+
+        pos++;
+        pos++;
+    }
+
+    COORD zeroPoint = { 0, 0 };
+    COORD sizeOfBlock = { screenSize.X, 1 };
+    SMALL_RECT region;
+    region.Left = 0;
+    region.Top = screenSize.Y-1;
+    region.Right = screenSize.X-1;
+    region.Bottom = screenSize.Y-1;
+    WriteConsoleOutput(descriptor, buf, sizeOfBlock, zeroPoint, &region);
+}
+
+void printMessage (const char* str)
+{
     if (INVALID_HANDLE_VALUE == descriptor)
     {
-        if (NULL != str1)
-            printf("%s ", str1);
-        if (NULL != str2)
-            printf("%s ", str2);
-        printf("%s\n", buf);
+        if (str != NULL)
+            printf("%s\n", str);
     }
     else
     {
         DWORD written;
-        if (NULL != str1)
+        if (str != NULL)
         {
-            WriteConsole(descriptor, str1, strlen(str1), &written, NULL);
+            WriteConsole(descriptor, str, strlen(str), &written, NULL);
             WriteConsole(descriptor, " ", 1, &written, NULL);
         }
-        if (NULL != str1)
-        {
-            WriteConsole(descriptor, str2, strlen(str2), &written, NULL);
-            WriteConsole(descriptor, " ", 1, &written, NULL);
-        }
-        WriteConsole(descriptor, buf, strlen(buf), &written, NULL);
-        WriteConsole(descriptor, "\n", 1, &written, NULL);
     }
 }
 

@@ -4,13 +4,11 @@
 #include <windows.h>
 #include "field.h"
 
-struct Field;
-static HANDLE descriptor;
-static COORD screenSize;
-static CHAR_INFO* screenBuffer;
-
 BOOL initConsole(Field*);
 void destroyConsole();
 void writeConsole(Field*);
+
+void writeHelpMessage(void);
+void printMessage (const char* str);
 
 #endif // CONSOLE_H_INCLUDED

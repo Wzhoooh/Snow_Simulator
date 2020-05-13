@@ -1,24 +1,35 @@
 # depslib dependency file v1.0
-1588619341 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.c
+1589389240 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.c
 	"stdio.h"
 	"field.h"
 	"time.h"
 
-1589049641 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
+1589389199 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\main.c
 	<conio.h>
+	<stdio.h>
 	"field.h"
 	"console.h"
+	"read_file.h"
 
-1588619880 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.h
+1589389313 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\field.h
 	<stdlib.h>
 	<windows.h>
 
-1589049664 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
+1589389168 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.h
 	<windows.h>
 	"field.h"
 
-1589049641 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
+1589387517 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\console.c
 	"console.h"
 	"field.h"
 	<stdio.h>
+
+1589386365 source:c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\read_file.c
+	"read_file.h"
+
+1589386365 c:\users\galina\desktop\programming\c++\0-educational_projects\snow_simulator\read_file.h
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+	"field.h"
 

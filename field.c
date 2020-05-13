@@ -78,23 +78,23 @@ int getFlakeStatus(Field* field, short x, short y)
     if (down == CHAR_SPACE)
         return FALLING;
 
-    if  (down == CHAR_WALL || down == CHAR_FLAKE &&
-        (left != CHAR_SPACE || leftDown != CHAR_SPACE) &&
-        (right != CHAR_SPACE || rightDown != CHAR_SPACE))
+    if  ((down == CHAR_WALL) || ((down == CHAR_FLAKE) &&
+          (left != CHAR_SPACE || leftDown != CHAR_SPACE) &&
+          (right != CHAR_SPACE || rightDown != CHAR_SPACE)))
         return NOT_ACTIVE;
 
-    if (down == CHAR_FLAKE)
+    // down == CHAR_FLAKE)
+    if (leftDown == CHAR_SPACE && rightDown == CHAR_SPACE &&
+        left == CHAR_SPACE && right == CHAR_SPACE)
     {
-        if (leftDown == CHAR_SPACE && rightDown == CHAR_SPACE &&
-            left == CHAR_SPACE && right == CHAR_SPACE)
-        {
-            return rand() > RAND_MAX / 2 ? LEFT_SLIDE : RIGHT_SLIDE;
-        }
-        if (right != CHAR_SPACE || rightDown != CHAR_SPACE)
-                return LEFT_SLIDE;
-        if (left != CHAR_SPACE || leftDown != CHAR_SPACE)
-            return RIGHT_SLIDE;
+        return rand() > RAND_MAX / 2 ? LEFT_SLIDE : RIGHT_SLIDE;
     }
+    if (right != CHAR_SPACE || rightDown != CHAR_SPACE)
+            return LEFT_SLIDE;
+    if (left != CHAR_SPACE || leftDown != CHAR_SPACE)
+        return RIGHT_SLIDE;
+
+    return 0;
 }
 
 void updateField(Field* field)
@@ -175,23 +175,5 @@ BOOL moveCannonLeft(Field* field)
 BOOL createNewFlakeFromCannon(Field* field)
 {
     COORD cannonCoord = getCannonCoord(field);
-    createNewFlake(field, cannonCoord.X);
-}
-
-void logField(Field* field)
-{
-    for (int j = -1; j <= field->size.X; j++)
-        printf("%c", CHAR_WALL);
-
-    printf("\n");
-    for (int i = 0; i < field->size.Y; i++)
-    {
-        printf("%c", CHAR_WALL);
-        for (int j = 0; j < field->size.X; j++)
-            printf("%c", getCell(field, j, i)->Char.AsciiChar);
-        printf("%c\n", CHAR_WALL);
-    }
-    for (int j = -1; j <= field->size.X; j++)
-        printf("%c", CHAR_WALL);
-    printf("\n");
+    return createNewFlake(field, cannonCoord.X);
 }

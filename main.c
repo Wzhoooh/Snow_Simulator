@@ -1,6 +1,8 @@
 #include <conio.h>
+#include <stdio.h>
 #include "field.h"
 #include "console.h"
+#include "read_file.h"
 
 #define BACK_SPACE 8
 #define ENTER 13
@@ -12,28 +14,37 @@
 
 int main()
 {
-    HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-    Field* field = constructField(GetLargestConsoleWindowSize(handle).X-1,
-                                  GetLargestConsoleWindowSize(handle).Y-1);
-    initConsole(field);
-    CHAR_INFO wall;
-    wall.Attributes = ATTR_WALL;
-    wall.Char.AsciiChar = CHAR_WALL;
+    SetConsoleTitle("Snow Simulator");
 
-    *getCell(field, 14, 9) = wall;
-    *getCell(field, 15, 9) = wall;
-    *getCell(field, 16, 9) = wall;
-    *getCell(field, 17, 9) = wall;
-    *getCell(field, 18, 9) = wall;
-    *getCell(field, 19, 9) = wall;
-    *getCell(field, 54, 34) = wall;
-    *getCell(field, 85, 23) = wall;
-    *getCell(field, 35, 26) = wall;
-    *getCell(field, 38, 15) = wall;
-    *getCell(field, 37, 16) = wall;
-    *getCell(field, 47, 11) = wall;
-    *getCell(field, 26, 30) = wall;
+    SetConsoleOutputCP(1251);
+    printf("Вы можете выбрать шрифт и его размер в свойствах этого окна.\n"
+           "Укажите имя текстового файла с преградами: ");
+    char nameFile[1024];
+    FILE* f = NULL;
+    while (!f)
+    {
+        fgets(nameFile, 1024, stdin);
+        if (nameFile[strlen(nameFile)-1] == '\n' || nameFile[strlen(nameFile)-1] == '\r')
+            nameFile[strlen(nameFile)-1] = '\0';
+        f = fopen(nameFile, "r");
+        if (!f)
+            printf("\nНе смог открыть файл. Укажите снова: ");
+    }
 
+    Field* field = getFieldFromFile(f);
+    if (!field)
+    {
+        printf("ERROR: invalid field initialization");
+        return 0;
+    }
+    if (!initConsole(field))
+    {
+        printMessage("ERROR: invalid console initialization");
+        return 0;
+    }
+    writeHelpMessage();
+
+    int isRandomSnowfall = FALSE;
     for (;; Sleep(50))
     {
         int keyPressed = 0;
@@ -55,13 +66,25 @@ int main()
 
         if (keyPressed == ' ' || keyPressed == ENTER)
             createNewFlakeFromCannon(field);
-        else if (keyPressed == LEFT)
+        else if ((keyPressed == LEFT) || (keyPressed == '4'))
             moveCannonLeft(field);
-        else if (keyPressed == RIGHT)
+        else if ((keyPressed == RIGHT) || (keyPressed == '6'))
             moveCannonRigh(field);
+        else if ((keyPressed == 'r') || (keyPressed == 'R'))
+            isRandomSnowfall = !isRandomSnowfall;
 
-        updateField(field);
+        if (isRandomSnowfall)
+        {
+            #define MAXFLAKES 8.
+            int numFlakes = (int)(rand()*MAXFLAKES/RAND_MAX);
+            for (int i = 0; i < numFlakes; ++i)
+                createNewFlake(field, (int)(rand()*field->size.X/RAND_MAX));
+        }
+
         writeConsole(field);
+        updateField(field);
     }
     destroyField(field);
+    destroyConsole();
+    fclose(f);
 }

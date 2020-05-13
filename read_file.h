@@ -1,10 +1,11 @@
 #ifndef READ_FILE_H_INCLUDED
 #define READ_FILE_H_INCLUDED
 
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <ctype.h>
 #include "field.h"
 
-struct Field* getFieldFromFile(struct FILE* f);
-int getMaxSizeOfStr(struct FILE* f);
+Field* getFieldFromFile(FILE* f);
 
 #endif // READ_FILE_H_INCLUDED
